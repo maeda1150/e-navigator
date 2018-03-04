@@ -1,0 +1,14 @@
+FROM mmaedaff/ubuntu17.10-for-rails:base
+LABEL maintainer "m-maeda@feedforce.jp"
+
+ENV GEM_HOME /usr/local/bundle
+ENV BUNDLE_PATH "$GEM_HOME"
+ENV BUNDLE_BIN "$GEM_HOME/bin"
+ENV BUNDLE_SILENCE_ROOT_WARNING 1
+ENV BUNDLE_APP_CONFIG "$GEM_HOME"
+ENV BUNDLE_JOBS 4
+ENV BUNDLE_RETRY 3
+ENV PATH "$BUNDLE_BIN:$PATH"
+
+WORKDIR /app
+
