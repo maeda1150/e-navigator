@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+require 'fileutils'
+include FileUtils
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path('../../', __FILE__)
+
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
+chdir APP_ROOT do
+  # This script is a starting point to setup your application.
+  # Add necessary setup steps to this file.
+
+  puts '== Checking docker =='
+  if system('docker', [ :out, :err ] => IO::NULL)
+    puts '[OK] docker found.'
+  else
+    puts '[ERROR] You need to install docker. ex.'
+    exit 1
+  end
+
+  puts '== Start docker login =='
+  puts '== Puts your docker id(not email) and tap enter, then puts your docker password and tap enter.'
+  if system!('docker login', [ :out, :err ] => IO::NULL)
+    puts '[OK] Docker login.'
+  else
+    puts '[ERROR] You need to docker login correctly.'
+    exit 1
+  end
+
+  puts "\n== Building docker image =="
+  system! 'docker build -f Dockerfile.base . -t mmaedaff/ubuntu17.10-for-rails:base'
+
+  puts "\n== Push docker image =="
+  system! 'docker push mmaedaff/ubuntu17.10-for-rails:base'
+end
+
