@@ -37,3 +37,5 @@ RUN CONFIGURE_OPTS="--disable-install-doc" ruby-build -v ${RUBY_VERSION} /usr/lo
 RUN apt-get install -y nodejs npm && \
     npm cache clean && npm install n -g && n ${NODE_VERSION} && \
     ln -sf /usr/local/bin/node /usr/bin/node && apt-get purge -y nodejs npm
+
+RUN apt-get install -y postgresql-client && apt-get -y autoremove
